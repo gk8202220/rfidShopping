@@ -6,18 +6,18 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 /*
- * ´ÓÉÌÆ·µÄÊı¾İ¿âÖĞ»ñÈ¡ÉÌÆ·ĞÅÏ¢
- * ±¾µØÊı¾İ¿âÎÄ¼şÔÚµ±Ç°³ÌĞòÔËĞĞµÄÄ¿Â¼./goodsdata.db
+ * ä»å•†å“çš„æ•°æ®åº“ä¸­è·å–å•†å“ä¿¡æ¯
+ * æœ¬åœ°æ•°æ®åº“æ–‡ä»¶åœ¨å½“å‰ç¨‹åºè¿è¡Œçš„ç›®å½•./goodsdata.db
  *
  */
 struct goodsInfo{
-    QString barcode;    //ÌõĞÎÂë
-    QString name;       //ÉÌÆ·Ãû³Æ
-    QString bincode;    //ÉÌÆ·±àÂë
-    QString goodsType;  //ÉÌÆ·Àà±ğ
-    QString goodsTypeBinCode;  //ÉÌÆ·Àà±ğ±àÂë
-    double vipPrice;    //»áÔ±¼Û¸ñ
-    double salePrice;   //ÏúÊÛ¼Û¸ñ
+    QString barcode  //æ¡å½¢ç 
+    QString name;       //å•†å“åç§°
+    QString bincode;    //å•†å“ç¼–ç 
+    QString goodsType;  //å•†å“ç±»åˆ«
+    QString goodsTypeBinCode;  //å•†å“ç±»åˆ«ç¼–ç 
+    double vipPrice;    //ä¼šå‘˜ä»·æ ¼
+    double salePrice;   //é”€å”®ä»·æ ¼
 };
 
 class goodsDatabase
@@ -25,7 +25,7 @@ class goodsDatabase
 public:
     goodsDatabase();
 
-    int query(QString bar,struct goodsInfo *info);//1.QString barÎª´«ÈëµÄÌõĞÎÂë,struct goodsInfo *infoÎª·µ»ØµÄÉÌÆ·ĞÅÏ¢
+    int query(QString bar,struct goodsInfo *info);//1.QString barä¸ºä¼ å…¥çš„æ¡å½¢ç ,struct goodsInfo *infoä¸ºè¿”å›çš„å•†å“ä¿¡æ¯
 private:
     QSqlDatabase goodsData;
 };
