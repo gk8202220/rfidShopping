@@ -11,7 +11,7 @@
  *
  */
 struct goodsInfo{
-    QString barcode  //条形码
+    QString barcode;  //条形码
     QString name;       //商品名称
     QString bincode;    //商品编码
     QString goodsType;  //商品类别
