@@ -7,7 +7,7 @@ KL4003 *KL4003::_instance = 0;
 KL4003::KL4003()
 {
  islodeLib = lodeLib();
-ComAdr = 1;
+ComAdr = 1
 FrmHandle = -1;//最大询查时间
 enbleScan = true;
 }
