@@ -39,13 +39,23 @@ public:
     myTableView *tableView;
     QVBoxLayout *verticalLayout;
     QLabel *label_3;
+    QSpacerItem *verticalSpacer_3;
     QSpacerItem *verticalSpacer;
+    QSpacerItem *verticalSpacer_5;
+    QLabel *all;
+    QSpacerItem *verticalSpacer_6;
+    QLabel *number;
+    QSpacerItem *verticalSpacer_8;
+    QSpacerItem *verticalSpacer_4;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *sell;
+    QPushButton *restart;
+    QPushButton *bagOut;
+    QSpacerItem *verticalSpacer_7;
+    QSpacerItem *verticalSpacer_9;
+    QLabel *label_4;
     QrcodeGenerate *widget;
     QSpacerItem *verticalSpacer_2;
-    QPushButton *save;
-    QrcodeGenerate *widget_2;
-    QLabel *all;
-    QLabel *label_6;
     QLabel *label_5;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -106,9 +116,79 @@ public:
 
         verticalLayout->addWidget(label_3);
 
-        verticalSpacer = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_3 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_3);
+
+        verticalSpacer = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer);
+
+        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_5);
+
+        all = new QLabel(centralWidget);
+        all->setObjectName(QStringLiteral("all"));
+        all->setStyleSheet(QStringLiteral("font: 75 30pt \"Adobe Arabic\";"));
+
+        verticalLayout->addWidget(all);
+
+        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_6);
+
+        number = new QLabel(centralWidget);
+        number->setObjectName(QStringLiteral("number"));
+        number->setStyleSheet(QStringLiteral("font: 75 30pt \"Adobe Arabic\";"));
+
+        verticalLayout->addWidget(number);
+
+        verticalSpacer_8 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_8);
+
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_4);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        sell = new QPushButton(centralWidget);
+        sell->setObjectName(QStringLiteral("sell"));
+        sell->setStyleSheet(QStringLiteral("font: 75 12pt \"Adobe Arabic\";"));
+
+        horizontalLayout_2->addWidget(sell);
+
+        restart = new QPushButton(centralWidget);
+        restart->setObjectName(QStringLiteral("restart"));
+        restart->setStyleSheet(QStringLiteral("font: 75 12pt \"Adobe Arabic\";"));
+
+        horizontalLayout_2->addWidget(restart);
+
+        bagOut = new QPushButton(centralWidget);
+        bagOut->setObjectName(QStringLiteral("bagOut"));
+        bagOut->setStyleSheet(QStringLiteral("font: 75 12pt \"Adobe Arabic\";"));
+
+        horizontalLayout_2->addWidget(bagOut);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
+
+        verticalSpacer_7 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_7);
+
+        verticalSpacer_9 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_9);
+
+        label_4 = new QLabel(centralWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setStyleSheet(QStringLiteral("font: 75 26pt \"Adobe Arabic\";"));
+
+        verticalLayout->addWidget(label_4);
 
         widget = new QrcodeGenerate(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
@@ -120,29 +200,9 @@ public:
 
         verticalLayout->addWidget(widget);
 
-        verticalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
         verticalLayout->addItem(verticalSpacer_2);
-
-        save = new QPushButton(centralWidget);
-        save->setObjectName(QStringLiteral("save"));
-
-        verticalLayout->addWidget(save);
-
-        widget_2 = new QrcodeGenerate(centralWidget);
-        widget_2->setObjectName(QStringLiteral("widget_2"));
-        sizePolicy2.setHeightForWidth(widget_2->sizePolicy().hasHeightForWidth());
-        widget_2->setSizePolicy(sizePolicy2);
-        all = new QLabel(widget_2);
-        all->setObjectName(QStringLiteral("all"));
-        all->setGeometry(QRect(10, 100, 221, 61));
-        all->setStyleSheet(QStringLiteral("font: 75 30pt \"Adobe Arabic\";"));
-        label_6 = new QLabel(widget_2);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(20, 200, 201, 61));
-        label_6->setStyleSheet(QStringLiteral("font: 75 30pt \"Adobe Arabic\";"));
-
-        verticalLayout->addWidget(widget_2);
 
         label_5 = new QLabel(centralWidget);
         label_5->setObjectName(QStringLiteral("label_5"));
@@ -181,9 +241,12 @@ public:
         label_2->setText(QString());
         label->setText(QString());
         label_3->setText(QString());
-        save->setText(QApplication::translate("MainWindow", "\344\277\235\345\255\230\344\272\214\347\273\264\347\240\201\345\233\276\347\211\207", Q_NULLPTR));
-        all->setText(QApplication::translate("MainWindow", "\346\200\273\350\256\241\357\274\2320.00\345\205\203", Q_NULLPTR));
-        label_6->setText(QApplication::translate("MainWindow", "\346\225\260\351\207\217\357\274\2320\344\273\266", Q_NULLPTR));
+        all->setText(QApplication::translate("MainWindow", "  \346\200\273\350\256\241\357\274\2320.00\345\205\203", Q_NULLPTR));
+        number->setText(QApplication::translate("MainWindow", "   \346\225\260\351\207\217\357\274\2320\344\273\266", Q_NULLPTR));
+        sell->setText(QApplication::translate("MainWindow", "\344\273\230\346\254\276", Q_NULLPTR));
+        restart->setText(QApplication::translate("MainWindow", "\351\207\215\346\226\260\345\274\200\345\247\213", Q_NULLPTR));
+        bagOut->setText(QApplication::translate("MainWindow", "\345\207\272\350\242\213", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "          \344\273\230\346\254\276\347\240\201", Q_NULLPTR));
         label_5->setText(QString());
     } // retranslateUi
 

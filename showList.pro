@@ -34,14 +34,16 @@ SOURCES += \
     mainwindow.cpp \
     qrcodegenerate.cpp \
     mytableview.cpp \
-    kl4003.cpp
+    kl4003.cpp \
+    bagmachine.cpp
 
 HEADERS += \
     goodsdatabase.h \
     mainwindow.h \
     qrcodegenerate.h \
     mytableview.h \
-    KL4003.h
+    KL4003.h \
+    bagmachine.h
 
 FORMS += \
         mainwindow.ui \

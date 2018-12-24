@@ -37,6 +37,7 @@ void MainWindow::setItem(int row, int col, QString text)
     m_item_list.push_back(itemTemp);
 }
 
+
 QStandardItem *MainWindow::getItem(int row, int col)
 {
     return model->item(row,col)? model->item(row, col):new QStandardItem();
@@ -72,7 +73,7 @@ void MainWindow::disPlay()
 
 void MainWindow::setCss()
 {
-    ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color:#ffe4c4;color: #000000;border: 0px solid;border-color:#cacaca;font:12pt Adobe Arabic;padding:5px 2px 5px 2px;border-radius:5}");
+    ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color:#ffe4c4;color: #000000;border: 0px solid;border-color:#cacaca;font:18pt Adobe Arabic;padding:5px 2px 5px 2px;border-radius:5}");
     ui->tableView->setStyleSheet("QTableView#tableView{"
                         "background-color:#d0e3ff;"
                         "border-radius:10;"
@@ -82,6 +83,7 @@ void MainWindow::setCss()
                    );
 
 }
+
 
 void MainWindow::displayInfo(QString bar)
 {
@@ -170,18 +172,6 @@ void MainWindow::removeTag(QString code)
 }
 
 
-void MainWindow::on_save_clicked()
-{
-    QString filename = QFileDialog::getSaveFileName(this,tr("Open Image"), "/home//weixinQRcode.jpg", tr("Image Files (*.png *.jpg *.bmp)"));
-
-    if( !filename.isEmpty() ) {
-
-        ui->widget->saveImage(filename);
-    }
-
-}
-
-
 int MainWindow::start()
 {
     if( rfid->isLoadLib())
@@ -257,12 +247,19 @@ int outAnt;
             int row = model->rowCount();
             //qDebug() << "row" << row;
             double sum = 0;
+            int number;
             for (int i = 0; i <= row; i++){
                 sum += getItem(i,5)->text().toDouble();
             }
              ui->all->setText(tr("总计:%1").arg(sum));
              ui->all->setVisible(true);
              ui->widget->generateString(QString::number(sum));
+
+             for (int m = 0; m <= row; m++){
+                 number += getItem(m,4)->text().toInt();
+             }
+             ui->number->setText(tr("数量:%1").arg(number));
+             ui->number->setVisible(true);
 
         }else
         {
@@ -289,14 +286,20 @@ int outAnt;
         }
         newScanEPCAndBar.clear();
         int row = model->rowCount();
-       //  qDebug() << "row" << row;
         double sum = 0;
+        int number;
         for (int i = 0; i <= row; i++) {
             sum += getItem(i,5)->text().toDouble();
         }
          ui->all->setText(tr("总计:%1").arg(sum));
          ui->all->setVisible(true);
          ui->widget->generateString(QString::number(sum));
+
+         for (int n = 0; n <= row; n++){
+             number += getItem(n,4)->text().toInt();
+         }
+         ui->number->setText(tr("数量:%1").arg(number));
+         ui->number->setVisible(true);
     }
 }
 
@@ -366,3 +369,22 @@ void MainWindow::test_AddNewRFID()
     scanRfidTimer->start();
 }
 
+//出袋按钮
+void MainWindow::on_bagOut_clicked()
+{
+
+}
+
+
+//重新启动
+void MainWindow::on_restart_clicked()
+{
+      test_AddNewRFID();
+}
+
+
+//付款
+void MainWindow::on_sell_clicked()
+{
+    sell();
+}
