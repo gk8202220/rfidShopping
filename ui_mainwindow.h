@@ -53,7 +53,10 @@ public:
     QPushButton *bagOut;
     QSpacerItem *verticalSpacer_7;
     QSpacerItem *verticalSpacer_9;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer;
     QLabel *label_4;
+    QSpacerItem *horizontalSpacer_2;
     QrcodeGenerate *widget;
     QSpacerItem *verticalSpacer_2;
     QLabel *label_5;
@@ -184,11 +187,25 @@ public:
 
         verticalLayout->addItem(verticalSpacer_9);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer);
+
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setStyleSheet(QStringLiteral("font: 75 26pt \"Adobe Arabic\";"));
 
-        verticalLayout->addWidget(label_4);
+        horizontalLayout_3->addWidget(label_4);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         widget = new QrcodeGenerate(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
@@ -246,7 +263,7 @@ public:
         sell->setText(QApplication::translate("MainWindow", "\344\273\230\346\254\276", Q_NULLPTR));
         restart->setText(QApplication::translate("MainWindow", "\351\207\215\346\226\260\345\274\200\345\247\213", Q_NULLPTR));
         bagOut->setText(QApplication::translate("MainWindow", "\345\207\272\350\242\213", Q_NULLPTR));
-        label_4->setText(QApplication::translate("MainWindow", "          \344\273\230\346\254\276\347\240\201", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "\344\273\230\346\254\276\347\240\201", Q_NULLPTR));
         label_5->setText(QString());
     } // retranslateUi
 
