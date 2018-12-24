@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'qrcodegenerate.ui'
 **
-** Created by: Qt User Interface Compiler version 5.2.1
+** Created by: Qt User Interface Compiler version 5.9.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -26,7 +26,7 @@ public:
     {
         if (QrcodeGenerate->objectName().isEmpty())
             QrcodeGenerate->setObjectName(QStringLiteral("QrcodeGenerate"));
-        QrcodeGenerate->resize(197, 156);
+        QrcodeGenerate->resize(509, 358);
 
         retranslateUi(QrcodeGenerate);
 
@@ -35,7 +35,7 @@ public:
 
     void retranslateUi(QWidget *QrcodeGenerate)
     {
-        QrcodeGenerate->setWindowTitle(QApplication::translate("QrcodeGenerate", "Form", 0));
+        QrcodeGenerate->setWindowTitle(QApplication::translate("QrcodeGenerate", "Form", Q_NULLPTR));
     } // retranslateUi
 
 };
