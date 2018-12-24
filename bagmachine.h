@@ -1,9 +1,8 @@
 #ifndef BAGMACHINE_H
 #define BAGMACHINE_H
-
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include  <QObject>
+#include <QObject>
 class BagMachine:public QObject
 {
     Q_OBJECT
@@ -11,7 +10,8 @@ public:
     BagMachine();
     void bagPayout();
     void bagStatus();
-    QSerialPort *Bag;
+    void bagRelax();
+    QSerialPort *bag;
     int openCom(QString port);
     QByteArray readComData;
     bool isOpen;

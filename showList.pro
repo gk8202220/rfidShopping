@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui serialport
 QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -24,9 +24,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-LIBS+= E:\qt-learing\showList\qrcodelib.lib
-LIBS+= E:\qt-learing\showList\qrcodelib.dll
-LIBS+= E:\qt-learing\showList\KL4003_32.dll
 
 SOURCES += \
         main.cpp \
@@ -51,3 +48,9 @@ FORMS += \
 
 RESOURCES += \
     src.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/./ -lqrcodelib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/./ -lqrcodelib
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.

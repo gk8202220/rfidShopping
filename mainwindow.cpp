@@ -87,7 +87,7 @@ void MainWindow::setCss()
 
 void MainWindow::displayInfo(QString bar)
 {
-    int j =0;
+   // int j =0;
     if(bar.isEmpty())return;
     if(model == NULL )
     {
@@ -174,6 +174,7 @@ void MainWindow::removeTag(QString code)
 
 int MainWindow::start()
 {
+    bag.openCom("COM11");
     if( rfid->isLoadLib())
     {
         int ret  =  rfid->RR_AutoOpenComPort();
@@ -191,6 +192,10 @@ int MainWindow::start()
 
         }
     }
+//    //打开出袋机
+
+
+
     return -2; //加载RFID动态库失败，检查路径是否正确
 }
 
@@ -312,6 +317,7 @@ void MainWindow::sell()
     do
     {
          foreach (QString EPC, displayEPCAndBar.keys()) {
+
              QString displayBar =displayEPCAndBar.value(EPC);
              int ret =  rfid->TagSell(EPC,displayBar);
              if(ret != 0)ret = rfid->TagSell(EPC,displayBar);
@@ -372,14 +378,15 @@ void MainWindow::test_AddNewRFID()
 //出袋按钮
 void MainWindow::on_bagOut_clicked()
 {
-
+bag.bagPayout();
 }
 
 
 //重新启动
 void MainWindow::on_restart_clicked()
 {
-      test_AddNewRFID();
+    bag.bagRelax();
+    test_AddNewRFID();
 }
 
 

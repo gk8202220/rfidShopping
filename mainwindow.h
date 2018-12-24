@@ -13,7 +13,7 @@
 #include <QSettings>
 #include "goodsdatabase.h"
 #include "KL4003.h"
-
+#include "bagmachine.h"
 namespace Ui {
 class MainWindow;
 }
@@ -36,7 +36,6 @@ private:
 
     QTimer *scanRfidTimer;  //rfid开始扫描的定时器
     KL4003 *rfid = KL4003::Instance();
-
     int scanTimes;//扫描的次数
     QMap<QString ,QString >displayEPCAndBar;//保存显示的标签的EPC和barCode
     QMap<QString ,QString >newScanEPCAndBar;//保存最新扫描到的标签的EPC和barCode
@@ -44,18 +43,15 @@ private:
     void removeTag(QString code);
     void showPrice();
     goodsDatabase *goodsDB;
-
     QStandardItemModel * model;
     struct goodsInfo1 *p;
     QList<QStandardItem*> m_item_list;
     void setCss();
-
     void setItem(int row,int col,QString text);
     QStandardItem* getItem(int row, int col);
     void disPlay();
-
-
     Ui::MainWindow *ui;
+    BagMachine bag; //出袋机
 
 private slots:
     void getRFIDData();

@@ -1,10 +1,11 @@
 #include "bagmachine.h"
 #include <QThread>
+#include <QDebug>
 BagMachine::BagMachine()
 {
-    Bag = new QSerialPort();
+    bag = new QSerialPort();
 
-    connect(Bag,SIGNAL(readyRead()),this,SLOT(On_readData()));
+    connect(bag,SIGNAL(readyRead()),this,SLOT(On_readData()));
 }
 void BagMachine::bagPayout()
 {
@@ -13,7 +14,7 @@ void BagMachine::bagPayout()
     cmd[1] = 0x01;
     cmd[2] = 0x01;
 
-    Bag->write(cmd);
+    bag->write(cmd);
 }
 
 void BagMachine::bagStatus()
@@ -23,32 +24,47 @@ void BagMachine::bagStatus()
     cmd[0] = 0x6c;
     cmd[1] = 0x01;
     cmd[2] = 0xfe;
+    bag->write(cmd);
+}
 
-    Bag->write(cmd);
+void BagMachine::bagRelax()
+{
+    char cmd[3];
+    cmd[0] = 0x6b;
+    cmd[1] = 0x01;
+    cmd[2] = 0x02;
+    bag->write(cmd);
 }
 
 
 int BagMachine::openCom(QString port)
 {
+    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
 
-        Bag->setPortName(port);
-        if(Bag->open(QIODevice::ReadWrite))
+        if(info.portName() == port)
         {
-
-            Bag->setBaudRate(QSerialPort::Baud115200);
-            Bag->setParity(QSerialPort::NoParity);
-            Bag->setDataBits(QSerialPort::Data8);//8位数据位
-            Bag->setStopBits(QSerialPort::OneStop);//1个停止位
-            Bag->setFlowControl(QSerialPort::NoFlowControl);
-            bagStatus();
+              bag->setPort(info);
+              qDebug()<< "com11";
         }
 
+
+        if(bag->open(QIODevice::ReadWrite))
+        {
+
+            bag->setBaudRate(QSerialPort::Baud115200);
+            bag->setParity(QSerialPort::NoParity);
+            bag->setDataBits(QSerialPort::Data8);//8位数据位
+            bag->setStopBits(QSerialPort::OneStop);//1个停止位
+            bag->setFlowControl(QSerialPort::NoFlowControl);
+            bagStatus();
+        }
+}
 
 }
 
 void BagMachine::On_readData()
 {
-    QByteArray data =  Bag->readAll();
+    QByteArray data =  bag->readAll();
 
     if(!data.isEmpty())
     {
