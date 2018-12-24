@@ -197,6 +197,7 @@ public:
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setStyleSheet(QStringLiteral("font: 75 26pt \"Adobe Arabic\";"));
+        label_4->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_3->addWidget(label_4);
 
