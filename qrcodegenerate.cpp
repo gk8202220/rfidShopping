@@ -9,6 +9,7 @@ QrcodeGenerate::QrcodeGenerate(QWidget *parent) :
     qr = NULL;
 }
 
+
 QrcodeGenerate::~QrcodeGenerate()
 {
     if(qr != NULL)
@@ -17,6 +18,8 @@ QrcodeGenerate::~QrcodeGenerate()
     }
     delete ui;
 }
+
+
 bool QrcodeGenerate::saveImage(QString fileName, int size)
 {
     if(size != 0 && !fileName.isEmpty())
@@ -38,6 +41,7 @@ bool QrcodeGenerate::saveImage(QString fileName, int size)
         return false;
     }
 }
+
 
 void QrcodeGenerate::generateString(QString str)
 {
@@ -77,18 +81,20 @@ void QrcodeGenerate::draw(QPainter &painter, int width, int height)
     }
 }
 
+
 void QrcodeGenerate::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     QColor background(Qt::white);
     painter.setBrush(background);
     painter.setPen(Qt::NoPen);
-    painter.drawRect(0, 0, width(), height());
+    painter.drawRect(0, 0, 250, 190);
     if(qr != NULL)
     {
-        draw(painter, width(), height());
+        draw(painter, 240, 190);
     }
 }
+
 
 QSize QrcodeGenerate::sizeHint()  const
 {
@@ -100,10 +106,11 @@ QSize QrcodeGenerate::sizeHint()  const
     }
     else
     {
-        s = QSize(50, 50);
+        s = QSize(240, 190);
     }
     return s;
 }
+
 
 QSize QrcodeGenerate::minimumSizeHint()  const
 {
@@ -115,7 +122,7 @@ QSize QrcodeGenerate::minimumSizeHint()  const
     }
     else
     {
-        s = QSize(50, 50);
+        s = QSize(240, 190);
     }
     return s;
 }

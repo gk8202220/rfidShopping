@@ -58,11 +58,13 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
-    void on_save_clicked();
     void getRFIDData();
 
 /*signals:
     void show();*/
+    void on_bagOut_clicked();
+    void on_restart_clicked();
+    void on_sell_clicked();
 };
 
 
