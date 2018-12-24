@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("列表");
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scanTimes = 0;
     start();
     setButtonCss();
+
 
 }
 
