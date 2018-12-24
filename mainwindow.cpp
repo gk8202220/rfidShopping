@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scanTimes = 0;
     start();
     setButtonCss();
+
 }
 
 
@@ -264,7 +265,7 @@ int outAnt;
             int row = model->rowCount();
             //qDebug() << "row" << row;
             double sum = 0;
-            int number;
+            int number = 0;
             for (int i = 0; i <= row; i++){
                 sum += getItem(i,5)->text().toDouble();
             }
@@ -277,6 +278,7 @@ int outAnt;
              }
              ui->number->setText(tr("数量:%1").arg(number));
              ui->number->setVisible(true);
+             qDebug() << "number" <<number;
 
         }else
         {
@@ -304,7 +306,7 @@ int outAnt;
         newScanEPCAndBar.clear();
         int row = model->rowCount();
         double sum = 0;
-        int number;
+        int number = 0;
         for (int i = 0; i <= row; i++) {
             sum += getItem(i,5)->text().toDouble();
         }
@@ -317,6 +319,7 @@ int outAnt;
          }
          ui->number->setText(tr("数量:%1").arg(number));
          ui->number->setVisible(true);
+         qDebug() << "number" <<number;
     }
 }
 
