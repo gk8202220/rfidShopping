@@ -49,6 +49,7 @@ private:
     struct goodsInfo1 *p;
     QList<QStandardItem*> m_item_list;
     void setCss();
+    void setButtonCss();
 
     void setItem(int row,int col,QString text);
     QStandardItem* getItem(int row, int col);
