@@ -53,6 +53,8 @@ private:
     Ui::MainWindow *ui;
     BagMachine bag; //出袋机
 
+        void  setButtonCss();
+
 private slots:
     void getRFIDData();
 
