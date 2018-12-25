@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 //电脑串口是57600 其它默认（8 奇偶是无 停止位1 流控制无）
 
@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("列表");
+  //  this->setWindowTitle("列表");
+    this->resize(1649,100);
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
@@ -23,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     scanTimes = 0;
     start();
     setButtonCss();
-
-
 }
 
 
@@ -56,7 +55,7 @@ void MainWindow::disPlay()
     model->setHorizontalHeaderItem(4,new QStandardItem(tr("数量")));
     model->setHorizontalHeaderItem(5,new QStandardItem(tr("小计")));
 
-    ui->tableView->setColumnWidth(0,100);
+    ui->tableView->setColumnWidth(0,300);
     ui->tableView->setColumnWidth(2,100);
     ui->tableView->setColumnWidth(3,100);
     ui->tableView->setColumnWidth(4,100);
@@ -78,7 +77,7 @@ void MainWindow::disPlay()
 void MainWindow::setCss()
 {
     ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color:#ffe4c4;color: #000000;border: 0px solid;border-color:#cacaca;font:18pt Adobe Arabic;padding:5px 2px 5px 2px;border-radius:5}");
-    ui->tableView->setStyleSheet("QTableView#tableView{"
+    ui->tableView->setStyleSheet("QTableView#tableView{"   
                         "background-color:#d0e3ff;"
                         "border-radius:10;"
                         "color:#000000;"
