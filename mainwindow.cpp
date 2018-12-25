@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
   //  this->setWindowTitle("列表");
-    this->resize(1649,100);
+    this->resize(1649,1000);
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
