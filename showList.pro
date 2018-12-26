@@ -32,7 +32,8 @@ SOURCES += \
     qrcodegenerate.cpp \
     mytableview.cpp \
     kl4003.cpp \
-    bagmachine.cpp
+    bagmachine.cpp \
+    pay.cpp
 
 HEADERS += \
     goodsdatabase.h \
@@ -40,7 +41,8 @@ HEADERS += \
     qrcodegenerate.h \
     mytableview.h \
     KL4003.h \
-    bagmachine.h
+    bagmachine.h \
+    pay.h
 
 FORMS += \
         mainwindow.ui \
