@@ -8,22 +8,27 @@
 #define scanTime 2 //扫描的间隔时间
 #define scanTimesTotal 3 // 扫描的次数
 
+
+ QString trade_num;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
   //  this->setWindowTitle("列表");
-    this->resize(1649,1000);
+    this->resize(1700,1000);
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
+
     goodsDB = new goodsDatabase();
     scanRfidTimer = new QTimer();
     connect(scanRfidTimer,SIGNAL(timeout()),this,SLOT(getRFIDData()));
     scanTimes = 0;
     start();
     setButtonCss();
+   // qDebug() << trade_num;
 }
 
 
@@ -48,29 +53,34 @@ QStandardItem *MainWindow::getItem(int row, int col)
 
 void MainWindow::disPlay()
 {
-    model->setHorizontalHeaderItem(0,new QStandardItem(tr("商品编号")));
-    model->setHorizontalHeaderItem(1,new QStandardItem(tr("商品名称")));
-    model->setHorizontalHeaderItem(2,new QStandardItem(tr("原价")));
-    model->setHorizontalHeaderItem(3,new QStandardItem(tr("会员价")));
-    model->setHorizontalHeaderItem(4,new QStandardItem(tr("数量")));
-    model->setHorizontalHeaderItem(5,new QStandardItem(tr("小计")));
+    model->setHorizontalHeaderItem(0,new QStandardItem(tr("订单编号")));
+    model->setHorizontalHeaderItem(1,new QStandardItem(tr("商品编号")));
+    model->setHorizontalHeaderItem(2,new QStandardItem(tr("商品名称")));
+    model->setHorizontalHeaderItem(3,new QStandardItem(tr("原价")));
+    model->setHorizontalHeaderItem(4,new QStandardItem(tr("会员价")));
+    model->setHorizontalHeaderItem(5,new QStandardItem(tr("数量")));
+    model->setHorizontalHeaderItem(6,new QStandardItem(tr("小计")));
 
     ui->tableView->setColumnWidth(0,300);
-    ui->tableView->setColumnWidth(2,100);
+    ui->tableView->setColumnWidth(1,300);
     ui->tableView->setColumnWidth(3,100);
     ui->tableView->setColumnWidth(4,100);
     ui->tableView->setColumnWidth(5,100);
+    ui->tableView->setColumnWidth(6,100);
     ui->tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Fixed);
     ui->tableView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Fixed);
     ui->tableView->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Fixed);
     ui->tableView->horizontalHeader()->setSectionResizeMode(5,QHeaderView::Fixed);//固定
-    ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);//设置伸缩
-    ui->tableView->resizeColumnToContents(1);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(6,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);//设置伸缩
+    ui->tableView->resizeColumnToContents(2);
     ui->tableView->verticalHeader()->setVisible(false);//隐藏列表头
     ui->tableView->setShowGrid(false);//去除表格线
     setCss();
-    ui->widget->generateString(ui->all->text());
+
+    ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
+
 }
 
 
@@ -84,8 +94,8 @@ void MainWindow::setCss()
                         "gridline-color: rgb(111, 156, 207);"
                         "font:14pt Adobe Arabic}"
                    );
-
 }
+
 
 void MainWindow::setButtonCss()
 {
@@ -106,7 +116,8 @@ void MainWindow::setButtonCss()
 
 void MainWindow::displayInfo(QString bar)
 {
-    int j =0;
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
     if(bar.isEmpty())return;
     if(model == NULL )
     {
@@ -116,16 +127,16 @@ void MainWindow::displayInfo(QString bar)
     int rowCount = model->rowCount();
         for(int i = 0;i <= rowCount;i++)//循环查询，查询是否想相同的商品编号
         {
-           QString data_string = model->index(i,0).data().toString();
+           QString data_string = model->index(i,1).data().toString();
             if(data_string ==  bar)//如果有相同的编号
             {
                 //已经有相同名称的的商品则数量上加上1
-                int goodsCount  = model->index(i,4).data().toInt();
-                float TotalPrice  = model->index(i,5).data().toFloat();
-                float salePrice  = model->index(i,3).data().toFloat();
+                int goodsCount  = model->index(i,5).data().toInt();
+                float TotalPrice  = model->index(i,6).data().toFloat();
+                float salePrice  = model->index(i,4).data().toFloat();
                 TotalPrice = salePrice*goodsCount;
-                setItem(i,4,QString::number(goodsCount+1)); //数量+1
-                setItem(i,5,QString::number(TotalPrice,'f',2)); //改变对应的总计
+                setItem(i,5,QString::number(goodsCount+1)); //数量+1
+                setItem(i,6,QString::number(TotalPrice,'f',2)); //改变对应的总计
                  return;
             }
         }
@@ -138,40 +149,36 @@ void MainWindow::displayInfo(QString bar)
            return ;
        }
 
-        setItem(rowCount,0,bar);
-        setItem(rowCount,1,info.name);
-        setItem(rowCount,2,QString::number(info.salePrice,'f',2));
-        setItem(rowCount,3,QString::number(info.vipPrice,'f',2));
-        setItem(rowCount,4,QString::number(1));
-        setItem(rowCount,5,QString::number(info.salePrice,'f',2));
+        setItem(rowCount,0,trade_num);
+        setItem(rowCount,1,bar);
+        setItem(rowCount,2,info.name );
+        setItem(rowCount,3, QString::number(info.salePrice,'f',2) );
+        setItem(rowCount,4, QString::number(info.vipPrice,'f',2) );
+        setItem(rowCount,5, QString::number(1));
+        setItem(rowCount,6,  QString::number(info.salePrice,'f',2));
         model->item(rowCount,0)->setTextAlignment(Qt::AlignCenter);
         model->item(rowCount,1)->setTextAlignment(Qt::AlignCenter);
         model->item(rowCount,2)->setTextAlignment(Qt::AlignCenter);
         model->item(rowCount,3)->setTextAlignment(Qt::AlignCenter);
         model->item(rowCount,4)->setTextAlignment(Qt::AlignCenter);
         model->item(rowCount,5)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,6)->setTextAlignment(Qt::AlignCenter);
 
-
-        ui->tableView->setColumnWidth(0,100);
-        ui->tableView->setColumnWidth(2,100);
+        ui->tableView->setColumnWidth(0,250);
+        ui->tableView->setColumnWidth(1,250);
         ui->tableView->setColumnWidth(3,100);
         ui->tableView->setColumnWidth(4,100);
         ui->tableView->setColumnWidth(5,100);
+        ui->tableView->setColumnWidth(6,100);
         ui->tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Fixed);
-        ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Fixed);
         ui->tableView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Fixed);
         ui->tableView->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Fixed);
         ui->tableView->horizontalHeader()->setSectionResizeMode(5,QHeaderView::Fixed);//固定
-        ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);//设置伸缩
-        ui->tableView->resizeColumnToContents(1);
-        ui->tableView->verticalHeader()->setVisible(false);//隐藏列表头
-        ui->tableView->setShowGrid(false);//去除表格线
-        setCss();
+        ui->tableView->horizontalHeader()->setSectionResizeMode(6,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);//设置伸缩
+        ui->tableView->resizeColumnToContents(2);
 
-       // qDebug() << "rowCount"<< rowCount;
-      //  for(int i = 0;i <= rowCount;i++)
-        {
-        }
 }
 
 
@@ -268,14 +275,14 @@ int outAnt;
             double sum = 0;
             int number = 0;
             for (int i = 0; i <= row; i++){
-                sum += getItem(i,5)->text().toDouble();
+                sum += getItem(i,6)->text().toDouble();
             }
              ui->all->setText(tr("总计:%1").arg(sum));
              ui->all->setVisible(true);
-             ui->widget->generateString(QString::number(sum));
+             ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
 
              for (int m = 0; m <= row; m++){
-                 number += getItem(m,4)->text().toInt();
+                 number += getItem(m,5)->text().toInt();
              }
              ui->number->setText(tr("数量:%1").arg(number));
              ui->number->setVisible(true);
@@ -309,14 +316,14 @@ int outAnt;
         double sum = 0;
         int number = 0;
         for (int i = 0; i <= row; i++) {
-            sum += getItem(i,5)->text().toDouble();
+            sum += getItem(i,6)->text().toDouble();
         }
          ui->all->setText(tr("总计:%1").arg(sum));
          ui->all->setVisible(true);
-         ui->widget->generateString(QString::number(sum));
+         ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
 
          for (int n = 0; n <= row; n++){
-             number += getItem(n,4)->text().toInt();
+             number += getItem(n,5)->text().toInt();
          }
          ui->number->setText(tr("数量:%1").arg(number));
          ui->number->setVisible(true);
@@ -408,4 +415,4 @@ void MainWindow::on_restart_clicked()
 void MainWindow::on_sell_clicked()
 {
     sell();
-}
+ }
