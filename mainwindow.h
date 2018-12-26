@@ -33,7 +33,7 @@ public:
     ~MainWindow();
 
 private:
-   // enum Table{BIN_CODE = 0, GOODS_NAME, SALE_PRICE, VIP_PRICE, AMOUNT, TOTAL_PRICE};
+   enum Table{BIN_CODE , GOODS_NAME, SALE_PRICE, VIP_PRICE, AMOUNT, TOTAL_PRICE};
 
     QTimer *scanRfidTimer;  //rfid开始扫描的定时器
     KL4003 *rfid = KL4003::Instance();
@@ -54,7 +54,7 @@ private:
     Ui::MainWindow *ui;
     BagMachine bag; //出袋机
 
-        void  setButtonCss();
+    void  setButtonCss();
 
 private slots:
     void getRFIDData();
