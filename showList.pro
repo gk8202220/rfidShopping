@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui serialport
 QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -24,9 +24,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-LIBS+= E:\qt-learing\showList\qrcodelib.lib
-LIBS+= E:\qt-learing\showList\qrcodelib.dll
-LIBS+= E:\qt-learing\showList\KL4003_32.dll
 
 SOURCES += \
         main.cpp \
@@ -35,7 +32,8 @@ SOURCES += \
     qrcodegenerate.cpp \
     mytableview.cpp \
     kl4003.cpp \
-    bagmachine.cpp
+    bagmachine.cpp \
+    pay.cpp
 
 HEADERS += \
     goodsdatabase.h \
@@ -43,7 +41,8 @@ HEADERS += \
     qrcodegenerate.h \
     mytableview.h \
     KL4003.h \
-    bagmachine.h
+    bagmachine.h \
+    pay.h
 
 FORMS += \
         mainwindow.ui \
@@ -51,3 +50,9 @@ FORMS += \
 
 RESOURCES += \
     src.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/./ -lqrcodelib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/./ -lqrcodelib
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
