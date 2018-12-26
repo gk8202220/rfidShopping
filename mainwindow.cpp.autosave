@@ -4,7 +4,7 @@
 
 #include <QDebug>
 #define stopTimer  10000
-#define scanGoodsAnt 0x80 //扫描商品的天线
+#define scanGoodsAnt 0x80 //扫描商品的天线1
 #define scanTime 2 //扫描的间隔时间
 #define scanTimesTotal 3 // 扫描的次数
 
@@ -329,22 +329,6 @@ void MainWindow::getRFIDData()
         }
         newScanEPCAndBar.clear();
         showPrice();
-        //        int row = model->rowCount();
-        //        double sum = 0;
-        //        int number = 0;
-        //        for (int i = 0; i <= row; i++) {
-        //            sum += getItem(i,6)->text().toDouble();
-        //        }
-        //         ui->all->setText(tr("总计:%1").arg(sum));
-        //         ui->all->setVisible(true);
-        //  ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
-
-        //         for (int n = 0; n <= row; n++){
-        //             number += getItem(n,5)->text().toInt();
-        //         }
-        //         ui->number->setText(tr("数量:%1").arg(number));
-        //         ui->number->setVisible(true);
-        //         qDebug() << "number" <<number;
     }
 }
 
@@ -440,7 +424,5 @@ void MainWindow::on_restart_clicked()
 void MainWindow::on_sell_clicked()
 {
     sell();
-
-
 }
 
