@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     scanTimes = 0;
     start();
     setButtonCss();
-   // qDebug() << trade_num;
 }
 
 
@@ -53,7 +52,7 @@ QStandardItem *MainWindow::getItem(int row, int col)
 
 void MainWindow::disPlay()
 {
-    model->setHorizontalHeaderItem(0,new QStandardItem(tr("订单编号")));
+    model->setHorizontalHeaderItem(0,new QStandardItem(tr("订单号")));
     model->setHorizontalHeaderItem(1,new QStandardItem(tr("商品编号")));
     model->setHorizontalHeaderItem(2,new QStandardItem(tr("商品名称")));
     model->setHorizontalHeaderItem(3,new QStandardItem(tr("原价")));
@@ -415,4 +414,6 @@ void MainWindow::on_restart_clicked()
 void MainWindow::on_sell_clicked()
 {
     sell();
+
+
  }
