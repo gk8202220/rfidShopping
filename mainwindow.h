@@ -35,7 +35,11 @@ public:
     ~MainWindow();
 
 private:
+<<<<<<< HEAD
    //
+=======
+   enum Table{BIN_CODE , GOODS_NAME, SALE_PRICE, VIP_PRICE, AMOUNT, TOTAL_PRICE};
+>>>>>>> 059485b8516e24bf8893d942ebfcca785ddfcb31
 
     QTimer *scanRfidTimer;  //rfid开始扫描的定时器
     KL4003 *rfid = KL4003::Instance();
@@ -55,9 +59,15 @@ private:
     void disPlay();
     Ui::MainWindow *ui;
     BagMachine bag; //出袋机
+<<<<<<< HEAD
     void  setButtonCss();
     Pay *pay;
     QString trade_num;
+=======
+
+    void  setButtonCss();
+
+>>>>>>> 059485b8516e24bf8893d942ebfcca785ddfcb31
 private slots:
     void getRFIDData();
     void on_payStatus(QString status ,QString data);

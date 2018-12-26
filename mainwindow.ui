@@ -6,19 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1165</width>
-    <height>1170</height>
+    <width>1188</width>
+    <height>1147</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
+<<<<<<< HEAD
    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));
 background-color: rgb(255, 255, 255);</string>
+=======
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+>>>>>>> 059485b8516e24bf8893d942ebfcca785ddfcb31
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="myTableView" name="tableView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QLabel" name="label_2">
       <property name="text">
@@ -39,16 +53,6 @@ background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string/>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="myTableView" name="tableView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -137,7 +141,7 @@ background-color: rgb(255, 255, 255);</string>
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="all">
+       <widget class="QLabel" name="label_total">
         <property name="styleSheet">
          <string notr="true">font: 75 30pt &quot;Adobe Arabic&quot;;</string>
         </property>
@@ -289,12 +293,12 @@ background-color: rgb(255, 255, 255);</string>
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label_payout">
           <property name="styleSheet">
-           <string notr="true">font: 75 26pt &quot;Adobe Arabic&quot;;</string>
+           <string notr="true">font: 75 22pt &quot;Adobe Arabic&quot;;</string>
           </property>
           <property name="text">
-           <string>付款码</string>
+           <string>支付宝付款码</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -370,10 +374,21 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< HEAD
      <width>1165</width>
      <height>26</height>
+=======
+     <width>1188</width>
+     <height>23</height>
+>>>>>>> 059485b8516e24bf8893d942ebfcca785ddfcb31
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>订单号</string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

@@ -59,7 +59,7 @@ int BagMachine::openCom(QString port)
             bagStatus();
         }
 }
-
+return 0;
 }
 
 void BagMachine::On_readData()

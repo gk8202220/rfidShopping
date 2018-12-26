@@ -54,32 +54,33 @@ QStandardItem *MainWindow::getItem(int row, int col)
 
 void MainWindow::disPlay()
 {
-    model->setHorizontalHeaderItem(0,new QStandardItem(tr("订单号")));
-    model->setHorizontalHeaderItem(1,new QStandardItem(tr("商品编号")));
-    model->setHorizontalHeaderItem(2,new QStandardItem(tr("商品名称")));
-    model->setHorizontalHeaderItem(3,new QStandardItem(tr("原价")));
-    model->setHorizontalHeaderItem(4,new QStandardItem(tr("会员价")));
-    model->setHorizontalHeaderItem(5,new QStandardItem(tr("数量")));
-    model->setHorizontalHeaderItem(6,new QStandardItem(tr("小计")));
+    model->setHorizontalHeaderItem(BIN_CODE,new QStandardItem(tr("商品编号")));
+    model->setHorizontalHeaderItem(GOODS_NAME,new QStandardItem(tr("商品名称")));
+    model->setHorizontalHeaderItem(SALE_PRICE,new QStandardItem(tr("原价")));
+    model->setHorizontalHeaderItem(VIP_PRICE,new QStandardItem(tr("会员价")));
+    model->setHorizontalHeaderItem(AMOUNT,new QStandardItem(tr("数量")));
+    model->setHorizontalHeaderItem(TOTAL_PRICE,new QStandardItem(tr("小计")));
 
-    ui->tableView->setColumnWidth(0,300);
-    ui->tableView->setColumnWidth(1,300);
-    ui->tableView->setColumnWidth(3,100);
-    ui->tableView->setColumnWidth(4,100);
-    ui->tableView->setColumnWidth(5,100);
-    ui->tableView->setColumnWidth(6,100);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(5,QHeaderView::Fixed);//固定
-    ui->tableView->horizontalHeader()->setSectionResizeMode(6,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);//设置伸缩
-    ui->tableView->resizeColumnToContents(2);
+    ui->tableView->setColumnWidth(BIN_CODE,250);
+    ui->tableView->setColumnWidth(SALE_PRICE,100);
+    ui->tableView->setColumnWidth(VIP_PRICE,100);
+    ui->tableView->setColumnWidth(AMOUNT,100);
+    ui->tableView->setColumnWidth(TOTAL_PRICE,100);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(BIN_CODE,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(SALE_PRICE,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(VIP_PRICE,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(AMOUNT,QHeaderView::Fixed);//固定
+    ui->tableView->horizontalHeader()->setSectionResizeMode(TOTAL_PRICE,QHeaderView::Fixed);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(GOODS_NAME,QHeaderView::Stretch);//设置伸缩
+    ui->tableView->resizeColumnToContents(GOODS_NAME);
+
     ui->tableView->verticalHeader()->setVisible(false);//隐藏列表头
     ui->tableView->setShowGrid(false);//去除表格线
     setCss();
 
+    ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
 
 }
 
@@ -87,28 +88,28 @@ void MainWindow::disPlay()
 void MainWindow::setCss()
 {
     ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color:#ffe4c4;color: #000000;border: 0px solid;border-color:#cacaca;font:18pt Adobe Arabic;padding:5px 2px 5px 2px;border-radius:5}");
-    ui->tableView->setStyleSheet("QTableView#tableView{"
-                                 "background-color:#d0e3ff;"
-                                 "border-radius:10;"
-                                 "color:#000000;"
-                                 "gridline-color: rgb(111, 156, 207);"
-                                 "font:14pt Adobe Arabic}"
-                                 );
+    ui->tableView->setStyleSheet("QTableView#tableView{"   
+                        "background-color:#d0e3ff;"
+                        "border-radius:10;"
+                        "color:#000000;"
+                        "gridline-color: rgb(111, 156, 207);"
+                        "font:14pt Adobe Arabic}"
+                   );
 }
 
 
 void MainWindow::setButtonCss()
 {
     this->setStyleSheet("QPushButton{"
-                        "background-color:#55aaff;"
-                        "color:#FFFFFF;"
-                        "border-width:1;"
-                        "border-style:outset;"
-                        "border-radius:10px;"
-                        "padding:2px 5px 2px 5px;"
-                        "font:12pt Adobe Arabic}"
-                        "QPushButton::hover{background-color:#ffaa7f}"
-                        );
+            "background-color:#55aaff;"
+            "color:#FFFFFF;"
+            "border-width:1;"
+            "border-style:outset;"
+            "border-radius:10px;"
+            "padding:2px 5px 2px 5px;"
+            "font:12pt Adobe Arabic}"
+            "QPushButton::hover{background-color:#ffaa7f}"
+                            );
 
 
 }
@@ -116,8 +117,6 @@ void MainWindow::setButtonCss()
 
 void MainWindow::displayInfo(QString bar)
 {
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
     if(bar.isEmpty())return;
     if(model == NULL )
     {
@@ -125,59 +124,59 @@ void MainWindow::displayInfo(QString bar)
         return;
     }
     int rowCount = model->rowCount();
-    for(int i = 0;i <= rowCount;i++)//循环查询，查询是否想相同的商品编号
-    {
-        QString data_string = model->index(i,1).data().toString();
-        if(data_string ==  bar)//如果有相同的编号
+        for(int i = 0;i <= rowCount;i++)//循环查询，查询是否想相同的商品编号
         {
-            //已经有相同名称的的商品则数量上加上1
-            int goodsCount  = model->index(i,5).data().toInt();
-            float TotalPrice  = model->index(i,6).data().toFloat();
-            float salePrice  = model->index(i,4).data().toFloat();
-            TotalPrice = salePrice*goodsCount;
-            setItem(i,5,QString::number(goodsCount+1)); //数量+1
-            setItem(i,6,QString::number(TotalPrice,'f',2)); //改变对应的总计
-            return;
+           QString data_string = model->index(i,1).data().toString();
+            if(data_string ==  bar)//如果有相同的编号
+            {
+                //已经有相同名称的的商品则数量上加上1
+                int goodsCount  = model->index(i,AMOUNT).data().toInt();
+                float TotalPrice  = model->index(i,TOTAL_PRICE).data().toFloat();
+                float salePrice  = model->index(i,SALE_PRICE).data().toFloat();
+                TotalPrice = salePrice*goodsCount;
+                setItem(i,5,QString::number(goodsCount+1)); //数量+1
+                setItem(i,6,QString::number(TotalPrice,'f',2)); //改变对应的总计
+                 return;
+            }
         }
-    }
 
-    struct goodsInfo info;
-    goodsDB->query(bar,&info);//从数据库获取商品信息
-    if(info.barcode.isEmpty())
-    {
-        // QMessageBox::warning(this,QString("提示"),tr("无此商品，请重新扫描"),QMessageBox::NoButton,QMessageBox::NoButton);
-        return ;
-    }
+       struct goodsInfo info;
+       goodsDB->query(bar,&info);//从数据库获取商品信息
+       if(info.barcode.isEmpty())
+       {
+          // QMessageBox::warning(this,QString("提示"),tr("无此商品，请重新扫描"),QMessageBox::NoButton,QMessageBox::NoButton);
+           return ;
+       }
 
-    setItem(rowCount,0,trade_num);
-    setItem(rowCount,1,bar);
-    setItem(rowCount,2,info.name );
-    setItem(rowCount,3, QString::number(info.salePrice,'f',2) );
-    setItem(rowCount,4, QString::number(info.vipPrice,'f',2) );
-    setItem(rowCount,5, QString::number(1));
-    setItem(rowCount,6,  QString::number(info.salePrice,'f',2));
-    model->item(rowCount,0)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,1)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,2)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,3)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,4)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,5)->setTextAlignment(Qt::AlignCenter);
-    model->item(rowCount,6)->setTextAlignment(Qt::AlignCenter);
 
-    ui->tableView->setColumnWidth(0,250);
-    ui->tableView->setColumnWidth(1,250);
-    ui->tableView->setColumnWidth(3,100);
-    ui->tableView->setColumnWidth(4,100);
-    ui->tableView->setColumnWidth(5,100);
-    ui->tableView->setColumnWidth(6,100);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(5,QHeaderView::Fixed);//固定
-    ui->tableView->horizontalHeader()->setSectionResizeMode(6,QHeaderView::Fixed);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);//设置伸缩
-    ui->tableView->resizeColumnToContents(2);
+        setItem(rowCount,BIN_CODE,bar);
+        setItem(rowCount,GOODS_NAME,info.name );
+        setItem(rowCount,SALE_PRICE,QString::number(info.salePrice,'f',2) );
+        setItem(rowCount,SALE_PRICE,QString::number(info.vipPrice,'f',2) );
+        setItem(rowCount,AMOUNT, QString::number(1));
+        setItem(rowCount,TOTAL_PRICE,QString::number(info.salePrice,'f',2));
+
+        model->item(rowCount,BIN_CODE)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,GOODS_NAME)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,SALE_PRICE)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,VIP_PRICE)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,AMOUNT)->setTextAlignment(Qt::AlignCenter);
+        model->item(rowCount,TOTAL_PRICE)->setTextAlignment(Qt::AlignCenter);
+
+
+        ui->tableView->setColumnWidth(BIN_CODE,250);
+        ui->tableView->setColumnWidth(SALE_PRICE,100);
+        ui->tableView->setColumnWidth(VIP_PRICE,100);
+        ui->tableView->setColumnWidth(AMOUNT,100);
+        ui->tableView->setColumnWidth(TOTAL_PRICE,100);
+
+        ui->tableView->horizontalHeader()->setSectionResizeMode(BIN_CODE,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(SALE_PRICE,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(VIP_PRICE,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(AMOUNT,QHeaderView::Fixed);//固定
+        ui->tableView->horizontalHeader()->setSectionResizeMode(TOTAL_PRICE,QHeaderView::Fixed);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(GOODS_NAME,QHeaderView::Stretch);//设置伸缩
+        ui->tableView->resizeColumnToContents(GOODS_NAME);
 
 }
 
@@ -185,14 +184,14 @@ void MainWindow::displayInfo(QString bar)
 void MainWindow::removeTag(QString code)
 {
     for(int i=0;i<model->rowCount();i++)
-    {
+      {
         if (model->data(model->index(i,0)).toString() == code)
         {
-            int goodsCount = model->index(i,4).data().toInt();
+            int goodsCount = model->index(i,AMOUNT).data().toInt();
             if(goodsCount>1)
-                setItem(i,4,QString::number(goodsCount-1)); //数量-1
+               setItem(i,AMOUNT,QString::number(goodsCount-1)); //数量-1
             else
-                model->removeRow(i);
+            model->removeRow(i);
         }
     }
 }
@@ -206,7 +205,7 @@ int MainWindow::start()
         if(ret != 0)
         {
             //打开RFID不成功
-            //this->close();
+         //this->close();
             qDebug() << "没有连接RFID";
             return -1;
         }else
@@ -269,7 +268,7 @@ void MainWindow::getRFIDData()
         {
             foreach (QString EPC, newScanEPCAndBarTemp.keys()) {
                 if(!newScanEPCAndBar.contains(EPC))
-                    newScanEPCAndBar.insert(EPC,newScanEPCAndBarTemp.value(EPC));
+                 newScanEPCAndBar.insert(EPC,newScanEPCAndBarTemp.value(EPC));
             }
             scanTimes++;
         }//end if(outAnt == 1)
@@ -289,8 +288,8 @@ void MainWindow::getRFIDData()
     {
         scanTimes = 0;
 
-         qDebug()<< "新的扫描标签 " <<newScanEPCAndBar.keys() <<newScanEPCAndBar.values();
-        qDebug()<< "显示的标签 " <<displayEPCAndBar.keys() <<displayEPCAndBar.values();
+        // qDebug()<< "新的扫描标签 " <<newScanEPCAndBar.keys() <<newScanEPCAndBar.values();
+        //qDebug()<< "显示的标签 " <<displayEPCAndBar.keys() <<displayEPCAndBar.values();
 
         //获取到天线1的标签(收银台的天线)
         //  qDebug()<< "标签数量 "<< EPCAndBar.count();
@@ -432,7 +431,7 @@ void MainWindow::on_bagOut_clicked()
 //重新启动
 void MainWindow::on_restart_clicked()
 {
-    test_AddNewRFID();
+      test_AddNewRFID();
 }
 
 
@@ -442,5 +441,4 @@ void MainWindow::on_sell_clicked()
     sell();
 
 
-}
-
+ }
