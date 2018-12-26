@@ -79,6 +79,8 @@ void MainWindow::disPlay()
     setCss();
 
     ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
 
 }
 
@@ -115,8 +117,6 @@ void MainWindow::setButtonCss()
 
 void MainWindow::displayInfo(QString bar)
 {
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
     if(bar.isEmpty())return;
     if(model == NULL )
     {

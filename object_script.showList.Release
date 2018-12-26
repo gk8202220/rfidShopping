@@ -5,9 +5,11 @@ INPUT(
 ./release\qrcodegenerate.o
 ./release\mytableview.o
 ./release\kl4003.o
+./release\bagmachine.o
 ./release\qrc_src.o
 ./release\moc_mainwindow.o
 ./release\moc_qrcodegenerate.o
 ./release\moc_mytableview.o
 ./release\moc_KL4003.o
+./release\moc_bagmachine.o
 );

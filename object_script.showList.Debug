@@ -5,9 +5,11 @@ INPUT(
 ./debug\qrcodegenerate.o
 ./debug\mytableview.o
 ./debug\kl4003.o
+./debug\bagmachine.o
 ./debug\qrc_src.o
 ./debug\moc_mainwindow.o
 ./debug\moc_qrcodegenerate.o
 ./debug\moc_mytableview.o
 ./debug\moc_KL4003.o
+./debug\moc_bagmachine.o
 );

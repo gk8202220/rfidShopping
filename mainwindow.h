@@ -8,6 +8,7 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QTimer>
+#include <QTime>
 #include <QSettings>
 #include <QObject>
 #include <QSettings>
