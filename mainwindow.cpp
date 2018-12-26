@@ -75,7 +75,7 @@ void MainWindow::disPlay()
     ui->tableView->setShowGrid(false);//去除表格线
     setCss();
 
-    ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
+    //ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
 
