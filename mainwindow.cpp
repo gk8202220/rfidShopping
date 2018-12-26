@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-  //  this->setWindowTitle("列表");
     this->resize(1700,1000);
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
@@ -124,7 +123,7 @@ void MainWindow::displayInfo(QString bar)
     int rowCount = model->rowCount();
         for(int i = 0;i <= rowCount;i++)//循环查询，查询是否想相同的商品编号
         {
-           QString data_string = model->index(i,1).data().toString();
+           QString data_string = model->index(i,BIN_CODE).data().toString();
             if(data_string ==  bar)//如果有相同的编号
             {
                 //已经有相同名称的的商品则数量上加上1
@@ -132,8 +131,8 @@ void MainWindow::displayInfo(QString bar)
                 float TotalPrice  = model->index(i,TOTAL_PRICE).data().toFloat();
                 float salePrice  = model->index(i,SALE_PRICE).data().toFloat();
                 TotalPrice = salePrice*goodsCount;
-                setItem(i,5,QString::number(goodsCount+1)); //数量+1
-                setItem(i,6,QString::number(TotalPrice,'f',2)); //改变对应的总计
+                setItem(i,AMOUNT,QString::number(goodsCount+1)); //数量+1
+                setItem(i,TOTAL_PRICE,QString::number(TotalPrice,'f',2)); //改变对应的总计
                  return;
             }
         }

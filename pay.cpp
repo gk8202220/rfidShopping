@@ -91,7 +91,7 @@ void Pay::On_wxQRcode()
     if(!data.isNull() || !data.isEmpty())
     {
         if(data.contains("weixin"))  emit payStatus("weixinQRCode",QString(data.mid(1,data.length()-2)));
-      //  else emit payStatus("error","服务器异常，获取微信二维码失败");
+        else emit payStatus("error","服务器异常，获取微信二维码失败");
     }
 }
 void Pay::On_payStatus()
