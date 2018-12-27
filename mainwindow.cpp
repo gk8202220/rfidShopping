@@ -9,15 +9,15 @@
 #define scanTimesTotal 3 // 扫描的次数
 
 
-
+QString trade_num;
+Pay *pay;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //  this->setWindowTitle("列表");
-    this->resize(1700,1000);
+    this->resize(1700,1000);  
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
@@ -28,8 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     scanTimes = 0;
     start();
     setButtonCss();
-    pay = new Pay();
-    connect(pay,SIGNAL(payStatus(QString,QString)),this,SLOT(on_payStatus(QString ,QString)));
 }
 
 
@@ -78,7 +76,7 @@ void MainWindow::disPlay()
     ui->tableView->setShowGrid(false);//去除表格线
     setCss();
 
-    ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
+    //ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
 
@@ -126,7 +124,7 @@ void MainWindow::displayInfo(QString bar)
     int rowCount = model->rowCount();
         for(int i = 0;i <= rowCount;i++)//循环查询，查询是否想相同的商品编号
         {
-           QString data_string = model->index(i,1).data().toString();
+           QString data_string = model->index(i,BIN_CODE).data().toString();
             if(data_string ==  bar)//如果有相同的编号
             {
                 //已经有相同名称的的商品则数量上加上1
@@ -134,8 +132,8 @@ void MainWindow::displayInfo(QString bar)
                 float TotalPrice  = model->index(i,TOTAL_PRICE).data().toFloat();
                 float salePrice  = model->index(i,SALE_PRICE).data().toFloat();
                 TotalPrice = salePrice*goodsCount;
-                setItem(i,5,QString::number(goodsCount+1)); //数量+1
-                setItem(i,6,QString::number(TotalPrice,'f',2)); //改变对应的总计
+                setItem(i,AMOUNT,QString::number(goodsCount+1)); //数量+1
+                setItem(i,TOTAL_PRICE,QString::number(TotalPrice,'f',2)); //改变对应的总计
                  return;
             }
         }
@@ -197,6 +195,41 @@ void MainWindow::removeTag(QString code)
 }
 
 
+
+//在界面上显示价格以及发起微信收款请求
+void MainWindow::showPrice()
+{
+    static float totalPriceBefore;
+    static int totalAmountBefore;
+    int   total_amount = 0; //商品总量
+    float total_price  = 0;//总价格
+    for(int i = 0;i < model->rowCount();i++)
+    {
+        int amount = model->index(i,AMOUNT).data().toInt();
+        total_amount += amount;
+        total_price  += model->index(i,TOTAL_PRICE).data().toFloat() * amount;
+    }
+
+    if( ( totalPriceBefore != total_price&&total_price!=0 ) || totalAmountBefore != total_amount)
+    {
+        totalPriceBefore  = total_price;
+        totalAmountBefore = total_amount;
+        ui->label_total->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
+        pay->wxpay(trade_num,"0.01","rfid");
+
+    }else if(total_price == 0){
+        totalPriceBefore  = 0;
+        totalAmountBefore = 0;
+        ui->label_total->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
+        ui->widget->hide();
+    }else
+    {
+        //商品没有变化，查询是否已经支付
+        pay->query(trade_num);
+    }
+}
+
+
 int MainWindow::start()
 {
     if( rfid->isLoadLib())
@@ -219,47 +252,13 @@ int MainWindow::start()
     return -2; //加载RFID动态库失败，检查路径是否正确
 }
 
-//在界面上显示价格以及发起微信收款请求
-void MainWindow::showPrice()
-{
-    static float totalPriceBefore;
-    static int totalAmountBefore;
-    int   total_amount = 0; //商品总量
-    float total_price  = 0;//总价格
-    for(int i = 0;i < model->rowCount();i++)
-    {
-        int amount = model->index(i,AMOUNT).data().toInt();
-        total_amount += amount;
-        total_price  += model->index(i,TOTAL_PRICE).data().toFloat() * amount;
-    }
 
-    if( ( totalPriceBefore != total_price&&total_price!=0 ) || totalAmountBefore != total_amount)
-    {
-        totalPriceBefore  = total_price;
-        totalAmountBefore = total_amount;
-        ui->all->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
-        pay->wxpay(trade_num,"0.01","rfid");
-
-    }else if(total_price == 0){
-        totalPriceBefore  = 0;
-        totalAmountBefore = 0;
-        ui->all->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
-        ui->widget->hide();
-    }else
-    {
-        //商品没有变化，查询是否已经支付
-        pay->query(trade_num);
-
-    }
-
-
-}
 void MainWindow::getRFIDData()
 {/*
  * 使用实时扫描方式
  */
-    QMap <QString ,QString >newScanEPCAndBarTemp;
-    int outAnt;
+QMap <QString ,QString >newScanEPCAndBarTemp;
+int outAnt;
     if(scanTimes<scanTimesTotal)
     {
         int ret = rfid->query(&outAnt,&newScanEPCAndBarTemp); //一次只能收到4个标签的数据。过多的数据会分别发送过来。
@@ -299,9 +298,9 @@ void MainWindow::getRFIDData()
         {
             //此时显示列表为空，将显示锁有得到的标签
             foreach (QString bar, newScanEPCAndBar.values()) {
-                qDebug()<< "全新的标签 " <<bar;
+                // qDebug()<< "全新的标签 " <<bar;
                 displayEPCAndBar = newScanEPCAndBar;
-                displayInfo(bar);
+                 displayInfo(bar);
             }
         }else
         {
@@ -321,74 +320,49 @@ void MainWindow::getRFIDData()
                 if(!displayEPCAndBar.contains(newEPC))
                 {
                     //  qDebug()<<"新添加的商品 "<< newScanEPCAndBar.value(newEPC);
-                    displayEPCAndBar.insert(newEPC,newScanEPCAndBar.value(newEPC));
-                    displayInfo(newScanEPCAndBar.value(newEPC));
+                   displayEPCAndBar.insert(newEPC,newScanEPCAndBar.value(newEPC));
+                     displayInfo(newScanEPCAndBar.value(newEPC));
                 }
             }
-        }
-        newScanEPCAndBar.clear();
-        showPrice();
-        //        int row = model->rowCount();
-        //        double sum = 0;
-        //        int number = 0;
-        //        for (int i = 0; i <= row; i++) {
-        //            sum += getItem(i,6)->text().toDouble();
-        //        }
-        //         ui->all->setText(tr("总计:%1").arg(sum));
-        //         ui->all->setVisible(true);
-        //  ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
-
-        //         for (int n = 0; n <= row; n++){
-        //             number += getItem(n,5)->text().toInt();
-        //         }
-        //         ui->number->setText(tr("数量:%1").arg(number));
-        //         ui->number->setVisible(true);
-        //         qDebug() << "number" <<number;
+        }     
+      newScanEPCAndBar.clear();
     }
-}
-
-void MainWindow::on_payStatus(QString status, QString data)
-{
-    if(status == "weixinQRCode")ui->widget->generateString(data);
-    else if(status == "alipayQRCode")ui->widget->generateString(data);
-    else if(status == "payStatus"){if(data == "支付成功")sell();}
-    else if(status == "error");
 }
 
 
 void MainWindow::sell()
 {
-    scanRfidTimer->stop();    //停止读取rfid
-    qDebug()<<"将要售出的所有标签"<<displayEPCAndBar.keys();
-    int destroyTimes = 0;//进行标志失败的次数
+   scanRfidTimer->stop();    //停止读取rfid
+   qDebug()<<"将要售出的所有标签"<<displayEPCAndBar.keys();
+   int destroyTimes = 0;//进行标志失败的次数
     do
     {
-        foreach (QString EPC, displayEPCAndBar.keys()) {
-            QString displayBar =displayEPCAndBar.value(EPC);
-            int ret =  rfid->TagSell(EPC,displayBar);
-            if(ret != 0)ret = rfid->TagSell(EPC,displayBar);
-            QString bar;
-            rfid->readTagData(EPC,&bar);//读取数据
-            //              qDebug()<<"本次要售出的标签"<<EPC<<displayBar;
-            //              qDebug()<<"本次写入后查询的结果EPC"<<EPC<<"bar:"<<bar;
-            int flag= bar.mid(0,1).toInt(nullptr,16);
-            int barLen = bar.mid(1,1).toInt(nullptr,16);
-            if(flag == 0 && barLen>10)
-            {
-                qDebug()<<"标签写入成功";
-                displayEPCAndBar.remove(EPC);
-                removeTag(displayBar);
-            }
-            destroyTimes++;
-        }
+         foreach (QString EPC, displayEPCAndBar.keys()) {
+             QString displayBar =displayEPCAndBar.value(EPC);
+             int ret =  rfid->TagSell(EPC,displayBar);
+             if(ret != 0)ret = rfid->TagSell(EPC,displayBar);
+             QString bar;
+             rfid->readTagData(EPC,&bar);//读取数据
+//              qDebug()<<"本次要售出的标签"<<EPC<<displayBar;
+//              qDebug()<<"本次写入后查询的结果EPC"<<EPC<<"bar:"<<bar;
+             int flag= bar.mid(0,1).toInt(nullptr,16);
+             int barLen = bar.mid(1,1).toInt(nullptr,16);
+             if(flag == 0 && barLen>10)
+             {
+                 qDebug()<<"标签写入成功";
+                 displayEPCAndBar.remove(EPC);
+                 removeTag(displayBar);
+             }
+             destroyTimes++;
+         }
 
     }while(!displayEPCAndBar.isEmpty() || destroyTimes>10);
-    if(!displayEPCAndBar.isEmpty())
-    {
-        //有商品没法进行成功的标志，可将此未标志的标签信息通知检测通道的天线。 今年
-    }
-    scanRfidTimer->start();  //重新开始读取rfid*/
-}
+   if(!displayEPCAndBar.isEmpty())
+   {
+       //有商品没法进行成功的标志，可将此未标志的标签信息通知检测通道的天线。 今年
+   }
+   scanRfidTimer->start();  //重新开始读取rfid*/
+ }
 
 void MainWindow::test_AddNewRFID()
 {
