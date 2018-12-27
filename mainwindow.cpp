@@ -25,6 +25,7 @@ void MainWindow::openDevice()
     ret = rfid->start();//开启rfid扫描仪
     if(ret < 0)qDebug() <<"打开rfid扫描仪失败";
     ret =  bag.openCom();//开启出袋机
+
     if(ret < 0)qDebug() <<"打开出袋机失败";
 }
 
@@ -119,7 +120,7 @@ void MainWindow::showPrice()
         total_amount += amount;
         total_price  += model->index(i,TOTAL_PRICE).data().toFloat() * amount;
     }
-
+    //如果商品产生变化，重新生成新的订单
     if( ( totalPriceBefore != total_price&&total_price!=0 ) || totalAmountBefore != total_amount)
     {
         totalPriceBefore  = total_price;
