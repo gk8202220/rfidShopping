@@ -9,14 +9,15 @@
 #define scanTimesTotal 3 // 扫描的次数
 
 
- QString trade_num;
+QString trade_num;
+Pay *pay;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->resize(1700,1000);
+    this->resize(1700,1000);  
     model = new QStandardItemModel();
     ui->tableView->setModel(model);
     disPlay();
@@ -194,6 +195,41 @@ void MainWindow::removeTag(QString code)
 }
 
 
+
+//在界面上显示价格以及发起微信收款请求
+void MainWindow::showPrice()
+{
+    static float totalPriceBefore;
+    static int totalAmountBefore;
+    int   total_amount = 0; //商品总量
+    float total_price  = 0;//总价格
+    for(int i = 0;i < model->rowCount();i++)
+    {
+        int amount = model->index(i,AMOUNT).data().toInt();
+        total_amount += amount;
+        total_price  += model->index(i,TOTAL_PRICE).data().toFloat() * amount;
+    }
+
+    if( ( totalPriceBefore != total_price&&total_price!=0 ) || totalAmountBefore != total_amount)
+    {
+        totalPriceBefore  = total_price;
+        totalAmountBefore = total_amount;
+        ui->label_total->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
+        pay->wxpay(trade_num,"0.01","rfid");
+
+    }else if(total_price == 0){
+        totalPriceBefore  = 0;
+        totalAmountBefore = 0;
+        ui->label_total->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
+        ui->widget->hide();
+    }else
+    {
+        //商品没有变化，查询是否已经支付
+        pay->query(trade_num);
+    }
+}
+
+
 int MainWindow::start()
 {
     if( rfid->isLoadLib())
@@ -266,24 +302,6 @@ int outAnt;
                 displayEPCAndBar = newScanEPCAndBar;
                  displayInfo(bar);
             }
-           /* int row = model->rowCount();
-            //qDebug() << "row" << row;
-            double sum = 0;
-            int number = 0;
-            for (int i = 0; i <= row; i++){
-                sum += getItem(i,6)->text().toDouble();
-            }
-             ui->all->setText(tr("总计:%1").arg(sum));
-             ui->all->setVisible(true);
-             ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
-
-             for (int m = 0; m <= row; m++){
-                 number += getItem(m,5)->text().toInt();
-             }
-             ui->number->setText(tr("数量:%1").arg(number));
-             ui->number->setVisible(true);
-             qDebug() << "number" <<number;*/
-
         }else
         {
 
@@ -306,24 +324,8 @@ int outAnt;
                      displayInfo(newScanEPCAndBar.value(newEPC));
                 }
             }
-        }
-        newScanEPCAndBar.clear();
-       /* int row = model->rowCount();
-        double sum = 0;
-        int number = 0;
-        for (int i = 0; i <= row; i++) {
-            sum += getItem(i,6)->text().toDouble();
-        }
-         ui->all->setText(tr("总计:%1").arg(sum));
-         ui->all->setVisible(true);
-         ui->widget->generateString("https://qr.alipay.com/bax04712rrptisv1la1820dc");
-
-         for (int n = 0; n <= row; n++){
-             number += getItem(n,5)->text().toInt();
-         }
-         ui->number->setText(tr("数量:%1").arg(number));
-         ui->number->setVisible(true);
-         qDebug() << "number" <<number;*/
+        }     
+      newScanEPCAndBar.clear();
     }
 }
 

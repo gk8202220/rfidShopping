@@ -182,7 +182,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="number">
+       <widget class="QLabel" name="label_amount">
         <property name="styleSheet">
          <string notr="true">font: 75 30pt &quot;Adobe Arabic&quot;;</string>
         </property>

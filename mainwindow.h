@@ -15,6 +15,7 @@
 #include "goodsdatabase.h"
 #include "KL4003.h"
 #include "bagmachine.h"
+#include "pay.h"
 namespace Ui {
 class MainWindow;
 }
