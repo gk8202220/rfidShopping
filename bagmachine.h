@@ -11,12 +11,14 @@ public:
     void bagPayout();
     void bagStatus();
     void bagRelax();
+    int openCom();
     QSerialPort *bag;
-    int openCom(QString port);
     QByteArray readComData;
-    bool isOpen;
+private:
+    QString comPort;
 private slots:
     void On_readData();
+
 };
 
 #endif // BAGMACHINE_H

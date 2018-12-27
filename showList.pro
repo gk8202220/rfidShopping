@@ -32,7 +32,8 @@ SOURCES += \
     mytableview.cpp \
     kl4003.cpp \
     bagmachine.cpp \
-    pay.cpp
+    pay.cpp \
+    rfid.cpp
 
 HEADERS += \
     goodsdatabase.h \
@@ -41,7 +42,8 @@ HEADERS += \
     mytableview.h \
     KL4003.h \
     bagmachine.h \
-    pay.h
+    pay.h \
+    rfid.h
 
 FORMS += \
         mainwindow.ui \

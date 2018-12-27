@@ -1,11 +1,14 @@
 #include "bagmachine.h"
 #include <QThread>
 #include <QDebug>
+#include <QSettings>
+#define configFile "config/config.ini"
 BagMachine::BagMachine()
 {
     bag = new QSerialPort();
-
     connect(bag,SIGNAL(readyRead()),this,SLOT(On_readData()));
+    QSettings setting(configFile,QSettings::IniFormat);
+    comPort = setting.value("bag/com").toString();
 }
 void BagMachine::bagPayout()
 {
@@ -13,7 +16,6 @@ void BagMachine::bagPayout()
     cmd[0] = 0x6b;
     cmd[1] = 0x01;
     cmd[2] = 0x01;
-
     bag->write(cmd);
 }
 
@@ -37,17 +39,12 @@ void BagMachine::bagRelax()
 }
 
 
-int BagMachine::openCom(QString port)
+int BagMachine::openCom()
 {
+
+    if(comPort.isEmpty())return -1;
     foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
-
-        if(info.portName() == port)
-        {
-              bag->setPort(info);
-              qDebug()<< "com11";
-        }
-
-
+        if(info.portName() == comPort)bag->setPort(info);
         if(bag->open(QIODevice::ReadWrite))
         {
 
@@ -56,10 +53,11 @@ int BagMachine::openCom(QString port)
             bag->setDataBits(QSerialPort::Data8);//8位数据位
             bag->setStopBits(QSerialPort::OneStop);//1个停止位
             bag->setFlowControl(QSerialPort::NoFlowControl);
-            bagStatus();
+            return 0;
+            //bagStatus();
         }
 }
-return 0;
+return -1;
 }
 
 void BagMachine::On_readData()

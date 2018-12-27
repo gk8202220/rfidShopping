@@ -12,10 +12,11 @@
 #include <QSettings>
 #include <QObject>
 #include <QSettings>
-#include "goodsdatabase.h"
-#include "KL4003.h"
+#include "rfid.h"
 #include "bagmachine.h"
 #include "pay.h"
+#include  "qrcodegenerate.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -27,41 +28,30 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
 
-    int start();
     void sell();
     void test_AddNewRFID();
-
     ~MainWindow();
 
-private:
-   enum Table{BIN_CODE , GOODS_NAME, SALE_PRICE, VIP_PRICE, AMOUNT, TOTAL_PRICE};
-
-    QTimer *scanRfidTimer;  //rfid开始扫描的定时器
-    KL4003 *rfid = KL4003::Instance();
-    int scanTimes;//扫描的次数
-    QMap<QString ,QString >displayEPCAndBar;//保存显示的标签的EPC和barCode
-    QMap<QString ,QString >newScanEPCAndBar;//保存最新扫描到的标签的EPC和barCode
-    void displayInfo( QString bar);//在界面上显示商品信息
-    void removeTag(QString code);
-    void showPrice();
-    goodsDatabase *goodsDB;
+private: 
     QStandardItemModel * model;
     struct goodsInfo1 *p;
     QList<QStandardItem*> m_item_list;
+    void openDevice(); //打开设备
     void setCss();
     void setItem(int row,int col,QString text);
+    void setButtonCss();
     QStandardItem* getItem(int row, int col);
     void disPlay();
     Ui::MainWindow *ui;
     BagMachine bag; //出袋机
-
-    void  setButtonCss();
+    Pay *pay;//支付
+    QString trade_num;
+    QrcodeGenerate *QRCode;
+    Rfid *rfid;
 
 private slots:
-    void getRFIDData();
-
-/*signals:
-    void show();*/
+    void on_payStatus(QString status,QString data);
+    void showPrice();
     void on_bagOut_clicked();
     void on_restart_clicked();
     void on_sell_clicked();
