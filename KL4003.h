@@ -33,7 +33,7 @@ public:
     }
     int RR_OpenComPort();
     int RR_AutoOpenComPort();
-    int  query(int *ReoutAnt,QMap <QString,QString> *EPCAndBar);
+    int  query(int *ReoutAnt,QMap <QString,QString> *EPCAndBar,QMap <QString,QString> *EPCAndBar_out);
     BYTE ComAdr;
     BYTE Ant;
     int FrmHandle;

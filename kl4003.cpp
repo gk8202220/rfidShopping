@@ -95,7 +95,7 @@ int KL4003::RR_AutoOpenComPort()
 }
 
 
-int KL4003::query(int *ReoutAnt,QMap <QString,QString> *EPCAndBar)
+int KL4003::query(int *ReoutAnt,QMap <QString,QString> *EPCAndBar,QMap <QString,QString> *EPCAndBar_out)
 {
     QString EPC, tagData;
     int CardNum = 0;
@@ -173,7 +173,7 @@ int KL4003::query(int *ReoutAnt,QMap <QString,QString> *EPCAndBar)
                     if(flag == 0 && codeLen >10)
                     {
                         QString code = tagData.mid(2,codeLen);
-                        //EPCAndBar_out->insert(EPC,code);  //已经售出的标签
+                        EPCAndBar_out->insert(EPC,code);  //已经售出的标签
                     }else if(flag == 1 && codeLen >0)
                     {
                         QString code = tagData.mid(2,codeLen);

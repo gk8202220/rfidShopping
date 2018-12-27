@@ -30,7 +30,7 @@ public:
     Pay();
     void wxpay(QString order,QString amount,QString subject);//返回微信二维码链接
     void alipay(QString order,QString amount,QString subject);//返回支付宝二维码链接
-    void query(QString order);//根据订单号来查询
+
 private:
     QNetworkAccessManager *manager;
     QNetworkReply *wxReply;
@@ -38,10 +38,13 @@ private:
     QString wxUrl;
     QString alipayUrl;
     QString queryUrl;
+    QTimer *payQueryTime;
+    QString order;
 private slots:
     void On_wxQRcode();
     void On_alipayQRcode();
     void On_payStatus();
+    void query();//根据订单号来查询
 signals:
     void payStatus(QString status,QString data);
 
