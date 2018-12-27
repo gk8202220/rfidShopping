@@ -150,7 +150,7 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>40</height>
+          <height>20</height>
          </size>
         </property>
        </spacer>
@@ -182,7 +182,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="number">
+       <widget class="QLabel" name="label_amount">
         <property name="styleSheet">
          <string notr="true">font: 75 30pt &quot;Adobe Arabic&quot;;</string>
         </property>
@@ -190,22 +190,6 @@
          <string>   数量：0件</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_8">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item>
        <spacer name="verticalSpacer_4">
@@ -222,6 +206,19 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_order">
+        <property name="styleSheet">
+         <string notr="true">font: 75 16pt &quot;Adobe Arabic&quot;;</string>
+        </property>
+        <property name="text">
+         <string>订单号：0000000000000000</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">

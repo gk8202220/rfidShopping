@@ -146,11 +146,10 @@ void MainWindow::displayInfo(QString bar)
            return ;
        }
 
-
         setItem(rowCount,BIN_CODE,bar);
         setItem(rowCount,GOODS_NAME,info.name );
         setItem(rowCount,SALE_PRICE,QString::number(info.salePrice,'f',2) );
-        setItem(rowCount,SALE_PRICE,QString::number(info.vipPrice,'f',2) );
+        setItem(rowCount,VIP_PRICE,QString::number(info.vipPrice,'f',2) );
         setItem(rowCount,AMOUNT, QString::number(1));
         setItem(rowCount,TOTAL_PRICE,QString::number(info.salePrice,'f',2));
 
