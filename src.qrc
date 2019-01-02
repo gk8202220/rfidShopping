@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>mihua.jpg</file>
+        <file>wx.png</file>
+        <file>zfb.png</file>
     </qresource>
 </RCC>

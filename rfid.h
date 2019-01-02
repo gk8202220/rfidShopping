@@ -22,7 +22,7 @@ private:
     QStandardItemModel *model;
     QTimer *scanRfidTimer;  //rfid开始扫描的定时器
     int scanTimes;//扫描的次数
-    KL4003 *rfid = KL4003::Instance();
+    KL4003 *rfid;// = KL4003::Instance();
     QMap<QString ,QString >displayEPCAndBar;//保存显示的标签的EPC和barCode
     QMap<QString ,QString >newScanEPCAndBar;//保存最新扫描到的标签的EPC和barCode
     goodsDatabase *goodsDB;

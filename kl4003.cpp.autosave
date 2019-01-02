@@ -7,19 +7,19 @@
 KL4003 *KL4003::_instance = 0;
 KL4003::KL4003()
 {
-    /*
+
  islodeLib = lodeLib();
  ComAdr = 1;
 FrmHandle = -1;//最大询查时间
 enbleScan = true;
-*/
+
 }
 bool KL4003::lodeLib()
 {
    //qDebug() << "load "<<libPath<< " ok!";
     QLibrary lib(libPath); //加载动态库
     if (lib.load()) {
-       // qDebug() << "load "<<libPath<< " ok!";
+       qDebug() << "load "<<libPath<< " ok!";
 
         OpenComPort = (FUN1)lib.resolve("OpenComPort"); //加载动态库的函数
         if (!OpenComPort)   qDebug() << "load FUN(OpenComPort) error!";

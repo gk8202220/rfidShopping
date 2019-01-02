@@ -1,4 +1,4 @@
-#include "pay.h"
+﻿#include "pay.h"
 #include <QSettings>
 #define configFile "config/config.ini"
 Pay::Pay()
@@ -15,8 +15,9 @@ Pay::Pay()
 }
 void Pay::wxpay(QString order,QString amount,QString subject)
 {
-    //QString weixinurl = "http://liukaihong14.e1.luyouxia.net:28834/shop/WXpay";
+     //QString weixinurl = "http://liukaihong14.e1.luyouxia.net:28834/shop/WXpay";
     this->order = order;
+    qDebug() << "wxUrl" << wxUrl;
     if(wxUrl.isEmpty())
     {
         emit payStatus("error","微信服务器地址没有配置");

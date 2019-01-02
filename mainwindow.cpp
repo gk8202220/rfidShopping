@@ -9,24 +9,28 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->resize(1700,1000);
+    //this->resize(1700,1159);
+
+    qDebug() << "test";
+   /*
     disPlay();
     openDevice();
     setButtonCss();
     pay = new Pay();
     connect(pay,SIGNAL(payStatus(QString,QString)),this,SLOT(on_payStatus(QString,QString)));
+ */
 }
 
 void MainWindow::openDevice()
 {
-      int ret;
+    int ret;
     rfid = new Rfid(model);
     connect(rfid,SIGNAL(show()),this,SLOT(showPrice()));
     ret = rfid->start();//开启rfid扫描仪
-    if(ret < 0)qDebug() <<"打开rfid扫描仪失败";
+    if(ret < 0) QMessageBox::information(this,"警告","打开rfid扫描仪失败");;
     ret =  bag.openCom();//开启出袋机
 
-    if(ret < 0)qDebug() <<"打开出袋机失败";
+    if(ret < 0) QMessageBox::information(this,"警告","打开出袋机失败");;;
 }
 
 
@@ -73,11 +77,26 @@ void MainWindow::disPlay()
     ui->tableView->resizeColumnToContents(GOODS_NAME);
     ui->tableView->verticalHeader()->setVisible(false);//隐藏列表头
     ui->tableView->setShowGrid(false);//去除表格线
-
-    QRCode = new QrcodeGenerate(ui->widget);
+    hideLabel();
     setCss();
 }
 
+void MainWindow::hideLabel()
+{
+    ui->label_zfb->hide();
+    ui->label_wx->hide();
+    ui->widget_wx->hide();
+    ui->widget_zfb->hide();
+}
+
+void MainWindow::showLabel()
+{
+    ui->label_wx->show();
+    ui->label_zfb->show();
+    ui->widget->show();
+    ui->widget->show();
+
+}
 
 void MainWindow::setCss()
 {
@@ -104,7 +123,6 @@ void MainWindow::setButtonCss()
                         "QPushButton::hover{background-color:#ffaa7f}"
                         );
 
-
 }
 
 //在界面上显示价格以及发起微信收款请求
@@ -130,22 +148,21 @@ void MainWindow::showPrice()
         qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
         trade_num = QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + QString::number(100 + qrand() % (999 - 100));
         pay->wxpay(trade_num,"0.01","rfid");
+        ui->label_order->setText("订单号:"+ trade_num);
+        showLabel();
     }else if(total_price == 0){
         totalPriceBefore  = 0;
         totalAmountBefore = 0;
         ui->label_total->setText("总计:"+QString::number(totalPriceBefore)+"元"+"\n"+"数量:"+QString::number(totalAmountBefore)+"件"); //总价
-        ui->widget->hide();
+        hideLabel();//将付款码隐藏
     }
 }
-
-
-
 
 void MainWindow::on_payStatus(QString status, QString data)
 {
 
-    if(status == "weixinQRCode")QRCode->generateString(data);
-    else if(status == "alipayQRCode")ui->widget->generateString(data);
+    if(status == "weixinQRCode") ui->widget_wx->generateString(data);
+    else if(status == "alipayQRCode") ui->widget_zfb->generateString(data);
     else if(status == "payStatus")
     {
         if(data=="支付成功")
@@ -157,6 +174,7 @@ void MainWindow::on_payStatus(QString status, QString data)
     else if(status == "error")
     {
         qDebug()<<data; //失败信息
+        QMessageBox::information(this,"警告",data);
     }
 }
 
@@ -166,7 +184,6 @@ void MainWindow::on_bagOut_clicked()
     bag.bagPayout();
 }
 
-
 //重新启动
 void MainWindow::on_restart_clicked()
 {
@@ -174,10 +191,7 @@ void MainWindow::on_restart_clicked()
     bag.bagRelax();
 }
 
-
 //付款
 void MainWindow::on_sell_clicked()
 {
-
-
 }
