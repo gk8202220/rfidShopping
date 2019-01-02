@@ -12,6 +12,7 @@
 #include <QSettings>
 #include <QObject>
 #include <QSettings>
+#include <QMessageBox>
 #include "rfid.h"
 #include "bagmachine.h"
 #include "pay.h"
@@ -42,6 +43,10 @@ private:
     void setButtonCss();
     QStandardItem* getItem(int row, int col);
     void disPlay();
+
+    void hideLabel();//隐藏显示微信支付宝支付的控件
+    void showLabel();//显示微信支付宝支付控件
+
     Ui::MainWindow *ui;
     BagMachine bag; //出袋机
     Pay *pay;//支付

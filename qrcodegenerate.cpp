@@ -88,10 +88,10 @@ void QrcodeGenerate::paintEvent(QPaintEvent *)
     QColor background(Qt::white);
     painter.setBrush(background);
     painter.setPen(Qt::NoPen);
-    painter.drawRect(0, 0, 250, 190);
+    painter.drawRect(0, 0, 160, 140);
     if(qr != NULL)
     {
-        draw(painter, 240, 190);
+        draw(painter, 150,130);
     }
 }
 
@@ -106,7 +106,7 @@ QSize QrcodeGenerate::sizeHint()  const
     }
     else
     {
-        s = QSize(240, 190);
+        s = QSize(120, 120);
     }
     return s;
 }
@@ -122,7 +122,7 @@ QSize QrcodeGenerate::minimumSizeHint()  const
     }
     else
     {
-        s = QSize(240, 190);
+        s = QSize(120, 120);
     }
     return s;
 }

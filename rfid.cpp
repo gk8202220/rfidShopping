@@ -1,4 +1,4 @@
-#include "rfid.h"
+﻿#include "rfid.h"
 #define stopTimer  10000
 #define scanGoodsAnt 0x80 //扫描商品的天线
 #define scanTime 2 //扫描的间隔时间

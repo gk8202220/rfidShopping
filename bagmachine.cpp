@@ -21,7 +21,6 @@ void BagMachine::bagPayout()
 
 void BagMachine::bagStatus()
 {
-
     char cmd[3];
     cmd[0] = 0x6c;
     cmd[1] = 0x01;
